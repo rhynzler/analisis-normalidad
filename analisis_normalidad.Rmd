@@ -40,6 +40,57 @@ qqline(x)
 boxplot(x)
 ```
 
+# Métodos Analíticos
+
+## Asimetria
+
+Existen tres tipos de asimetría
+
+![](https://www.biologyforlife.com/uploads/2/2/3/9/22392738/c101b0da6ea1a0dab31f80d9963b0368_orig.png){width="635"}
+
+Para el analisis del mismo vamos a definir los siguientes rangos:
+
+-   El valor se encuentra entre -0.5 y 0.5. La distribución es aproximadamente sesgada.
+
+-   El valor se encuentra entre -1 a -5 o 1 a 5. La distribución es ligeramente sesgada.
+
+-   El valor es menor que -1 o mayor a 1. La distribución es moderadamente sesgada pero aceptable.
+
+-   Si el valor supera -2 o 2. La distribución no es normal
+
+```{r}
+dist_norm_as =rnorm(n=450, mean=2, sd=2.3)
+dist_gamma_as =  rgamma(n=450, shape=2, scale=3)
+```
+
+```{r}
+# Configurar la disposición de los gráficos
+par(mfrow = c(1, 2))
+
+# Dibujar el primer histograma
+hist(dist_norm_as, main = "Normal", col = "blue")
+
+# Dibujar el segundo histograma
+hist(dist_gamma_as, main = "Binomial", col = "red")
+
+```
+
+```{r}
+print(skewness(dist_norm_as))
+print(skewness(dist_gamma_as))
+```
+
+## Curtosis
+
+Permite medir el grado de apuntamiento o achatamiento de la distribución de frecuencia, respecto a la curva de la distribución normal que tiene coeficiente igual a 0.
+
+![](images/download (1).png)
+
+```{r}
+print(kurtosis(dist_norm_as))
+print(kurtosis(dist_gamma_as))
+```
+
 # Contraste de hipótesis
 
 ```{r}
