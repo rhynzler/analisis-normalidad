@@ -5,7 +5,7 @@ date: "2024-07-03"
 output: pdf_document
 ---
 
-El analisis de la normalidad es importante para analizar cuanto difiere nuestra distribución si esta proviene de una distribucion normal con una media y desviacion estandar iguales. Existen cuatro estrategias para comprobar la normalidad
+El análisis de normalidad tiene como objetivo analizar si la distribución de frecuencias relativas de una variable cuantitativa en un población se aproxima a una Distribución Normal con la misma media y desviación estándar que la variable.
 
 # Métodos Gráficos
 
