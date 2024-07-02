@@ -13,14 +13,14 @@ Para estas demostraciones se creará una distribución randomica:
 
 ```{r}
 set.seed(12345)
-x <- rnorm(n=200, mean=15, sd=5)
+x <- rnorm(n = 200, mean = 15, sd = 5)
 x
 ```
 
 ## Histograma de frencuencias
 
 ```{r}
-h = hist(x, main="Histograma de datos con distribución normal", xlab = "Datos aleatorios", ylab = "Frecuencia", probability = TRUE)
+h <- hist(x, main = "Histograma de datos con distribución normal", xlab = "Datos aleatorios", ylab = "Frecuencia", probability = TRUE)
 x2 <- seq(min(x), max(x), length = 50)
 normal <- dnorm(x2, mean = mean(x), sd = sd(x))
 lines(x2, normal, col = 2, lwd = 2)
@@ -59,8 +59,8 @@ Para el analisis del mismo vamos a definir los siguientes rangos:
 -   Si el valor supera -2 o 2. La distribución no es normal
 
 ```{r}
-dist_norm_as =rnorm(n=450, mean=2, sd=2.3)
-dist_gamma_as =  rgamma(n=450, shape=2, scale=3)
+dist_norm_as <- rnorm(n = 450, mean = 2, sd = 2.3)
+dist_gamma_as <- rgamma(n = 450, shape = 2, scale = 3)
 ```
 
 ```{r}
@@ -72,7 +72,6 @@ hist(dist_norm_as, main = "Normal", col = "blue")
 
 # Dibujar el segundo histograma
 hist(dist_gamma_as, main = "Binomial", col = "red")
-
 ```
 
 ```{r}
@@ -94,7 +93,7 @@ print(kurtosis(dist_gamma_as))
 # Contraste de hipótesis
 
 ```{r}
-library('nortest')
+library("nortest")
 ```
 
 En todas las pruebas a realizar se considera como hipótesis nula que los datos sí proceden de una distribución normal y como hipótesis alternativa que no lo hacen. El *p-value* de estos test indica la probabilidad de obtener una distribución como la observada si los datos proceden realmente de una población con una distribución normal.
@@ -106,8 +105,8 @@ En todas las pruebas a realizar se considera como hipótesis nula que los datos 
 La muestra debe ser menor a 50 datos.
 
 ```{r}
-dist_norm_sw =rnorm(n=49, mean=15, sd=5)
-dist_binm_sw = rnbinom(n=49, size=5, prob=0.35)
+dist_norm_sw <- rnorm(n = 49, mean = 15, sd = 5)
+dist_binm_sw <- rnbinom(n = 49, size = 5, prob = 0.35)
 ```
 
 ```{r}
@@ -119,7 +118,6 @@ hist(dist_norm_sw, main = "Normal", col = "blue")
 
 # Dibujar el segundo histograma
 hist(dist_binm_sw, main = "Binomial", col = "red")
-
 ```
 
 ```{r}
@@ -132,8 +130,8 @@ print(shapiro.test(x = dist_binm_sw))
 El número de muestras tiene que ser mayor a 7
 
 ```{r}
-dist_norm_ad =rnorm(n=85, mean=15, sd=5)
-dist_binm_ad = rnbinom(n=76, size=5, prob=0.35)
+dist_norm_ad <- rnorm(n = 85, mean = 15, sd = 5)
+dist_binm_ad <- rnbinom(n = 76, size = 5, prob = 0.35)
 ```
 
 ```{r}
@@ -157,8 +155,8 @@ print(shapiro.test(x = dist_binm_ad))
 Útil para muestras pequeñas
 
 ```{r}
-dist_norm_cm =rnorm(n=49, mean=15, sd=5)
-dist_gamm_cm = rgamma(n=49, shape=2, scale=3)
+dist_norm_cm <- rnorm(n = 49, mean = 15, sd = 5)
+dist_gamm_cm <- rgamma(n = 49, shape = 2, scale = 3)
 ```
 
 ```{r}
@@ -182,9 +180,8 @@ print(cvm.test(x = dist_gamm_cm))
 Número de observaciones mayor a 50
 
 ```{r}
-dist_norm_li =rnorm(n=320, mean=15, sd=5)
-dist_gamm_li = rgamma(n=320, shape=2, scale=3)
-
+dist_norm_li <- rnorm(n = 320, mean = 15, sd = 5)
+dist_gamm_li <- rgamma(n = 320, shape = 2, scale = 3)
 ```
 
 ```{r}
@@ -208,8 +205,8 @@ print(lillie.test(x = dist_gamm_li))
 Basa en una distribución Chi Cuadrada
 
 ```{r}
-dist_norm_pcq =rnorm(n=410, mean=15, sd=5)
-dist_gamm_pcq = rgamma(n=410, shape=2, scale=3)
+dist_norm_pcq <- rnorm(n = 410, mean = 15, sd = 5)
+dist_gamm_pcq <- rgamma(n = 410, shape = 2, scale = 3)
 ```
 
 ```{r}
