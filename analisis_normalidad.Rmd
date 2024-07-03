@@ -9,11 +9,11 @@ output:
       in_header: header.tex
 ---
 
-El análisis de normalidad tiene como objetivo analizar si la distribución de frecuencias relativas de una variable cuantitativa en un población se aproxima a una Distribución Normal con la misma media y desviación estándar que la variable.
+El análisis de normalidad define si una distribución de frecuencias relativas de una variable cuantitativa en una población se aproxima a una Distribución Normal con la misma media y desviación estándar que la variable.
 
 # Métodos Gráficos
 
-Para estas demostraciones se creará una distribución randomica:
+Para estas demostraciones se creará una distribución aleatoria:
 
 ```{r}
 set.seed(12345)
@@ -46,7 +46,7 @@ boxplot(x)
 
 # Métodos Analíticos
 
-## Asimetria
+## Asimetría
 
 Existen tres tipos de asimetría
 
@@ -75,7 +75,7 @@ par(mfrow = c(1, 2))
 hist(dist_norm_as, main = "Normal", col = "blue")
 
 # Dibujar el segundo histograma
-hist(dist_gamma_as, main = "Binomial", col = "red")
+hist(dist_gamma_as, main = "Gamma", col = "red")
 ```
 
 ```{r}
