@@ -2,7 +2,11 @@
 title: "Análisis de Normalidad"
 author: "Paúl Arévalo, Esteban Vizhñay"
 date: "2024-07-03"
-output: pdf_document
+output: 
+  pdf_document:
+    extra_dependencies: ["fvextra"]
+    includes:
+      in_header: header.tex
 ---
 
 El análisis de normalidad tiene como objetivo analizar si la distribución de frecuencias relativas de una variable cuantitativa en un población se aproxima a una Distribución Normal con la misma media y desviación estándar que la variable.
@@ -46,7 +50,7 @@ boxplot(x)
 
 Existen tres tipos de asimetría
 
-![](https://www.biologyforlife.com/uploads/2/2/3/9/22392738/c101b0da6ea1a0dab31f80d9963b0368_orig.png){width="635"}
+![Comparativa de Normalidad](/home/paul/Development/ciencia_datos/FundamentosCienciaDatos/TrabajoAnalisisNormalidad/norm.png){width="635"}
 
 Para el analisis del mismo vamos a definir los siguientes rangos:
 
@@ -75,6 +79,8 @@ hist(dist_gamma_as, main = "Binomial", col = "red")
 ```
 
 ```{r}
+library(moments)
+
 print(skewness(dist_norm_as))
 print(skewness(dist_gamma_as))
 ```
@@ -83,7 +89,7 @@ print(skewness(dist_gamma_as))
 
 Permite medir el grado de apuntamiento o achatamiento de la distribución de frecuencia, respecto a la curva de la distribución normal que tiene coeficiente igual a 0.
 
-![](images/download (1).png)
+![](/home/paul/Development/ciencia_datos/FundamentosCienciaDatos/TrabajoAnalisisNormalidad/norm1.jpeg)
 
 ```{r}
 print(kurtosis(dist_norm_as))
@@ -146,8 +152,8 @@ hist(dist_binm_ad, main = "Binomial", col = "red")
 ```
 
 ```{r}
-print(shapiro.test(x = dist_norm_ad))
-print(shapiro.test(x = dist_binm_ad))
+print(ad.test(x = dist_norm_ad))
+print(ad.test(x = dist_binm_ad))
 ```
 
 ## Prueba de Cramer-von Mises
