@@ -95,12 +95,13 @@ Permite medir el grado de apuntamiento o achatamiento de la distribución de fre
 print(kurtosis(dist_norm_as))
 print(kurtosis(dist_gamma_as))
 ```
+```{r}
+library("nortest")
+library(moments)
+```
 
 # Contraste de hipótesis
 
-```{r}
-library("nortest")
-```
 
 En todas las pruebas a realizar se considera como hipótesis nula que los datos sí proceden de una distribución normal y como hipótesis alternativa que no lo hacen. El *p-value* de estos test indica la probabilidad de obtener una distribución como la observada si los datos proceden realmente de una población con una distribución normal.
 
@@ -113,17 +114,44 @@ La muestra debe ser menor a 50 datos.
 ```{r}
 dist_norm_sw <- rnorm(n = 49, mean = 15, sd = 5)
 dist_binm_sw <- rnbinom(n = 49, size = 5, prob = 0.35)
+
+# calculamos la curva de normalidad
+dist_norm_sw_x <- seq(min(dist_norm_sw), max(dist_norm_sw), length = 49)
+dist_norm_sw_x_normal <- dnorm(dist_norm_sw_x, mean = mean(dist_norm_sw_x), sd = sd(dist_norm_sw_x))
+dist_norm_sw_asi <- skewness(dist_norm_sw)
+dist_norm_sw_cur <- kurtosis(dist_norm_sw)
+
+dist_binm_sw_x <- seq(min(dist_binm_sw), max(dist_binm_sw), length = 49)
+dist_binm_sw_x_normal <- dnorm(dist_binm_sw_x, mean = mean(dist_binm_sw_x), sd = sd(dist_binm_sw_x))
+dist_binm_sw_asi <- skewness(dist_binm_sw)
+dist_binm_sw_cur <- kurtosis(dist_binm_sw)
 ```
+
 
 ```{r}
 # Configurar la disposición de los gráficos
-par(mfrow = c(1, 2))
+# par(mfrow = c(1, 2))
 
 # Dibujar el primer histograma
-hist(dist_norm_sw, main = "Normal", col = "blue")
+hist(dist_norm_sw, main = "Normal", col = "blue", probability = TRUE)
+lines(dist_norm_sw_x, dist_norm_sw_x_normal, col = "red", lwd = 2)
+# Agregar texto con asimetría y curtosis en la parte superior derecha
+text(x = 0.95 * max(dist_norm_sw), y = 0.95 * par("usr")[4], pos = 1, adj = c(1, 0),
+     labels = paste("Asimetría:", round(dist_norm_sw_asi, 2), "\nCurtosis:", round(dist_norm_sw_cur, 2)), col = "black")
+
+#lines(density(dist_norm_sw_x), col = "green", lwd = 2)
+
+```
+
+```{r}
 
 # Dibujar el segundo histograma
-hist(dist_binm_sw, main = "Binomial", col = "red")
+hist(dist_binm_sw, main = "Binomial", col = "red", probability = TRUE)
+lines(dist_binm_sw_x, dist_binm_sw_x_normal, col = "blue", lwd = 2)
+#lines(density(dist_binm_sw_x), col = "green", lwd = 2)
+# Agregar texto con asimetría y curtosis en la parte superior derecha
+text(x = 0.95 * max(dist_binm_sw), y = 0.95 * par("usr")[4], pos = 1, adj = c(1, 0),
+     labels = paste("Asimetría:", round(dist_binm_sw_asi, 2), "\nCurtosis:", round(dist_binm_sw_cur, 2)), col = "black")
 ```
 
 ```{r}
@@ -131,55 +159,113 @@ print(shapiro.test(x = dist_norm_sw))
 print(shapiro.test(x = dist_binm_sw))
 ```
 
+
 ## Prueba de Anderson-Darling
 
 El número de muestras tiene que ser mayor a 7
 
+
 ```{r}
 dist_norm_ad <- rnorm(n = 85, mean = 15, sd = 5)
 dist_binm_ad <- rnbinom(n = 76, size = 5, prob = 0.35)
+
+# calculamos la curva de normalidad
+dist_norm_ad_x <- seq(min(dist_norm_ad), max(dist_norm_ad), length = 85)
+dist_norm_ad_x_normal <- dnorm(dist_norm_ad_x, mean = mean(dist_norm_ad_x), sd = sd(dist_norm_ad_x))
+dist_norm_ad_asi <- skewness(dist_norm_ad)
+dist_norm_ad_cur <- kurtosis(dist_norm_ad)
+
+dist_binm_ad_x <- seq(min(dist_binm_ad), max(dist_binm_ad), length = 76)
+dist_binm_ad_x_normal <- dnorm(dist_binm_ad_x, mean = mean(dist_binm_ad_x), sd = sd(dist_binm_ad_x))
+dist_binm_ad_asi <- skewness(dist_binm_ad)
+dist_binm_ad_cur <- kurtosis(dist_binm_ad)
+
 ```
+
 
 ```{r}
 # Configurar la disposición de los gráficos
-par(mfrow = c(1, 2))
+#par(mfrow = c(1, 2))
 
 # Dibujar el primer histograma
-hist(dist_norm_ad, main = "Normal", col = "blue")
+hist(dist_norm_ad, main = "Normal", col = "blue", probability = TRUE)
+lines(dist_norm_ad_x, dist_norm_ad_x_normal, col = "red", lwd = 2)
+# Agregar texto con asimetría y curtosis en la parte superior derecha
+text(x = 0.95 * max(dist_norm_ad), y = 0.95 * par("usr")[4], pos = 1, adj = c(1, 0),
+     labels = paste("Asimetría:", round(dist_norm_ad_asi, 2), "\nCurtosis:", round(dist_norm_ad_cur, 2)), col = "black")
 
-# Dibujar el segundo histograma
-hist(dist_binm_ad, main = "Binomial", col = "red")
 ```
+
+```{r}
+# Dibujar el segundo histograma
+hist(dist_binm_ad, main = "Binomial", col = "red", probability = TRUE)
+lines(dist_binm_ad_x, dist_binm_ad_x_normal, col = "blue", lwd = 2)
+# Agregar texto con asimetría y curtosis en la parte superior derecha
+text(x = 0.95 * max(dist_binm_ad), y = 0.95 * par("usr")[4], pos = 1, adj = c(1, 0),
+     labels = paste("Asimetría:", round(dist_binm_ad_asi, 2), "\nCurtosis:", round(dist_binm_ad_cur, 2)), col = "black")
+```
+
 
 ```{r}
 print(ad.test(x = dist_norm_ad))
 print(ad.test(x = dist_binm_ad))
 ```
 
+
+
 ## Prueba de Cramer-von Mises
 
 Útil para muestras pequeñas
 
+
+
 ```{r}
 dist_norm_cm <- rnorm(n = 49, mean = 15, sd = 5)
 dist_gamm_cm <- rgamma(n = 49, shape = 2, scale = 3)
+
+# calculamos la curva de normalidad
+dist_norm_cm_x <- seq(min(dist_norm_cm), max(dist_norm_cm), length = 49)
+dist_norm_cm_x_normal <- dnorm(dist_norm_cm_x, mean = mean(dist_norm_cm_x), sd = sd(dist_norm_cm_x))
+dist_norm_cm_asi <- skewness(dist_norm_cm)
+dist_norm_cm_cur <- kurtosis(dist_norm_cm)
+
+dist_gamm_cm_x <- seq(min(dist_gamm_cm), max(dist_gamm_cm), length = 49)
+dist_gamm_cm_x_normal <- dnorm(dist_gamm_cm_x, mean = mean(dist_gamm_cm_x), sd = sd(dist_gamm_cm_x))
+dist_gamm_cm_asi <- skewness(dist_gamm_cm)
+dist_gamm_cm_cur <- kurtosis(dist_gamm_cm)
 ```
+
 
 ```{r}
 # Configurar la disposición de los gráficos
-par(mfrow = c(1, 2))
+# par(mfrow = c(1, 2))
 
 # Dibujar el primer histograma
-hist(dist_norm_cm, main = "Normal", col = "blue")
+hist(dist_norm_cm, main = "Normal", col = "blue", probability = TRUE)
+lines(dist_norm_cm_x, dist_norm_cm_x_normal, col = "red", lwd = 2)
+# Agregar texto con asimetría y curtosis en la parte superior derecha
+text(x = 0.95 * max(dist_norm_cm), y = 0.95 * par("usr")[4], pos = 1, adj = c(1, 0),
+     labels = paste("Asimetría:", round(dist_norm_cm_asi, 2), "\nCurtosis:", round(dist_norm_cm_cur, 2)), col = "black")
 
-# Dibujar el segundo histograma
-hist(dist_gamm_cm, main = "Gamma", col = "red")
 ```
+
+
+```{r}
+# Dibujar el segundo histograma
+hist(dist_gamm_cm, main = "Gamma", col = "red", probability = TRUE)
+lines(dist_gamm_cm_x, dist_gamm_cm_x_normal, col = "blue", lwd = 2)
+# Agregar texto con asimetría y curtosis en la parte superior derecha
+text(x = 0.95 * max(dist_gamm_cm), y = 0.95 * par("usr")[4], pos = 1, adj = c(1, 0),
+     labels = paste("Asimetría:", round(dist_gamm_cm_asi, 2), "\nCurtosis:", round(dist_gamm_cm_cur, 2)), col = "black")
+```
+
 
 ```{r}
 print(cvm.test(x = dist_norm_cm))
 print(cvm.test(x = dist_gamm_cm))
 ```
+
+
 
 ## Prueba Lilliefors
 
@@ -188,45 +274,96 @@ Número de observaciones mayor a 50
 ```{r}
 dist_norm_li <- rnorm(n = 320, mean = 15, sd = 5)
 dist_gamm_li <- rgamma(n = 320, shape = 2, scale = 3)
+
+
+# calculamos la curva de normalidad
+dist_norm_li_x <- seq(min(dist_norm_li), max(dist_norm_li), length = 320)
+dist_norm_li_x_normal <- dnorm(dist_norm_li_x, mean = mean(dist_norm_li_x), sd = sd(dist_norm_li_x))
+dist_norm_li_asi <- skewness(dist_norm_li)
+dist_norm_li_cur <- kurtosis(dist_norm_li)
+
+dist_gamm_li_x <- seq(min(dist_gamm_li), max(dist_gamm_li), length = 320)
+dist_gamm_li_x_normal <- dnorm(dist_gamm_li_x, mean = mean(dist_gamm_li_x), sd = sd(dist_gamm_li_x))
+dist_gamm_li_asi <- skewness(dist_gamm_li)
+dist_gamm_li_cur <- kurtosis(dist_gamm_li)
 ```
+
 
 ```{r}
-# Configurar la disposición de los gráficos
-par(mfrow = c(1, 2))
-
-# Dibujar el primer histograma
-hist(dist_norm_li, main = "Normal", col = "blue")
-
-# Dibujar el segundo histograma
-hist(dist_gamm_li, main = "Gamma", col = "red")
+hist(dist_norm_li, main = "Normal", col = "blue", probability = TRUE)
+lines(dist_norm_li_x, dist_norm_li_x_normal, col = "red", lwd = 2)
+# Agregar texto con asimetría y curtosis en la parte superior derecha
+text(x = 0.95 * max(dist_norm_li), y = 0.95 * par("usr")[4], pos = 1, adj = c(1, 0),
+     labels = paste("Asimetría:", round(dist_norm_li_asi, 2), "\nCurtosis:", round(dist_norm_li_cur, 2)), col = "black")
 ```
+
+
+```{r}
+# Dibujar el segundo histograma
+hist(dist_gamm_li, main = "Gamma", col = "red", probability = TRUE)
+lines(dist_gamm_li_x, dist_gamm_li_x_normal, col = "blue", lwd = 2)
+# Agregar texto con asimetría y curtosis en la parte superior derecha
+text(x = 0.95 * max(dist_gamm_li), y = 0.95 * par("usr")[4], pos = 1, adj = c(1, 0),
+     labels = paste("Asimetría:", round(dist_gamm_li_asi, 2), "\nCurtosis:", round(dist_gamm_li_cur, 2)), col = "black")
+```
+
 
 ```{r}
 print(lillie.test(x = dist_norm_li))
 print(lillie.test(x = dist_gamm_li))
 ```
 
+
+
 ## Prueba Pearson chi-square
 
 Basa en una distribución Chi Cuadrada
 
+
+
 ```{r}
 dist_norm_pcq <- rnorm(n = 410, mean = 15, sd = 5)
 dist_gamm_pcq <- rgamma(n = 410, shape = 2, scale = 3)
+
+# calculamos la curva de normalidad
+dist_norm_pcq_x <- seq(min(dist_norm_pcq), max(dist_norm_pcq), length = 320)
+dist_norm_pcq_x_normal <- dnorm(dist_norm_pcq_x, mean = mean(dist_norm_pcq_x), sd = sd(dist_norm_pcq_x))
+dist_norm_pcq_asi <- skewness(dist_norm_pcq)
+dist_norm_pcq_cur <- kurtosis(dist_norm_pcq)
+
+dist_gamm_pcq_x <- seq(min(dist_gamm_pcq), max(dist_gamm_pcq), length = 320)
+dist_gamm_pcq_x_normal <- dnorm(dist_gamm_pcq_x, mean = mean(dist_gamm_pcq_x), sd = sd(dist_gamm_pcq_x))
+dist_gamm_pcq_asi <- skewness(dist_gamm_pcq)
+dist_gamm_pcq_cur <- kurtosis(dist_gamm_pcq)
+
 ```
+
+
 
 ```{r}
-# Configurar la disposición de los gráficos
-par(mfrow = c(1, 2))
-
-# Dibujar el primer histograma
-hist(dist_norm_pcq, main = "Normal", col = "blue")
-
-# Dibujar el segundo histograma
-hist(dist_gamm_pcq, main = "Gamma", col = "red")
+hist(dist_norm_pcq, main = "Normal", col = "blue", probability = TRUE)
+lines(dist_norm_pcq_x, dist_norm_pcq_x_normal, col = "red", lwd = 2)
+# Agregar texto con asimetría y curtosis en la parte superior derecha
+text(x = 0.95 * max(dist_norm_pcq), y = 0.95 * par("usr")[4], pos = 1, adj = c(1, 0),
+     labels = paste("Asimetría:", round(dist_norm_pcq_asi, 2), "\nCurtosis:", round(dist_norm_pcq_cur, 2)), col = "black")
 ```
+
+
+```{r}
+# Dibujar el segundo histograma
+hist(dist_gamm_pcq, main = "Gamma", col = "red", probability = TRUE)
+lines(dist_gamm_pcq_x, dist_gamm_pcq_x_normal, col = "blue", lwd = 2)
+# Agregar texto con asimetría y curtosis en la parte superior derecha
+text(x = 0.95 * max(dist_gamm_pcq), y = 0.95 * par("usr")[4], pos = 1, adj = c(1, 0),
+     labels = paste("Asimetría:", round(dist_gamm_pcq_asi, 2), "\nCurtosis:", round(dist_gamm_pcq_cur, 2)), col = "black")
+```
+
+
 
 ```{r}
 print(pearson.test(x = dist_norm_pcq))
 print(pearson.test(x = dist_gamm_pcq))
 ```
+
+
+
